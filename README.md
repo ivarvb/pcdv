@@ -55,7 +55,7 @@ No terminal acessar à cada pasta python/exemplo[x]/src/ e executar o seguinte c
 python app.py
 ```
 	
-## II. Exemplos com python e D3.
+## Parte II. Exemplos com python e D3.
 
 Nesta secção é apresentada uma aplicação web cliente/servidor baseada em python e D3 para tarefas de ciência de dados e visualização.
 
