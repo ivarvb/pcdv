@@ -81,12 +81,12 @@ Para o cliente executar:
 sh server.sh
 ```
 
-Ou abrir um webbrower com o seguinte endereço:
+Ou abrir o web brower com o seguinte endereço:
 
 ```
 http://localhost:9999/
 ```
 
-Depois desde o web browser o usuario poderá interagir com a apliacação.
+Depois desde o web browser o usuario poderá interagir com a aplicação.
 
 
