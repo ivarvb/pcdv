@@ -1,12 +1,12 @@
-# PDSV
+# PDCV
 
-Python ciencia de dados e visualização
+Python ciência de dados e visualização
 
 ## Exemplos: Ciência de Dados e Visualização com Python
 
 Disciplina: Visualização
 
-Monitor: Ivar Vargas Beilizario
+Monitor: Ivar Vargas Belizario
 
 E-mail: ivar@usp.br
 
@@ -35,13 +35,13 @@ pip install scikit-learn numpy pandas scikit-learn tornado zip
 
 ## Descargar o código fonte:
 
-Descaregue o codigo desde:
+Descarregue o código desde:
 
 ```
-urll
+https://github.com/ivarvb/pcdv
 ```
 
-Logo descompactar o arquivo descaregado.
+Logo descompactar o arquivo descarregado.
 
 ## Parte I: Exemplos somente com python
 
@@ -81,12 +81,12 @@ Para o cliente executar:
 sh server.sh
 ```
 
-Ou abrir o web brower com o seguinte endereço:
+Ou abrir o web browser com o seguinte endereço:
 
 ```
 http://localhost:9999/
 ```
 
-Depois desde o web browser o usuario poderá interagir com a aplicação.
+Depois desde o web browser o usuário poderá interagir com a aplicação.
 
 
