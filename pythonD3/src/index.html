@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <title>Python e D3 (Ciência de Dados e Visualização) </title>
+    <meta charset="utf-8">
+    <style>
+        body {
+            font: 12px sans-serif;
+        }
+
+        .axis path,
+        .axis line {
+            fill: none;
+            stroke: #000;
+            shape-rendering: crispEdges;
+        }
+
+        .dot {
+            stroke: #444;
+        }
+
+        .tooltip {
+            position: absolute;
+            width: 200px;
+            height: 28px;
+            pointer-events: none;
+        }
+
+        .legend {
+            font-family: 'Raleway', sans-serif;
+            fill: #333333;
+        }
+        </style>
+        <script src="http://d3js.org/d3.v3.min.js"></script>
+        <script src="./lib/jquery-3.3.1.min.js"></script>
+        <script src="./lib/vis.js"></script>
+    </head>
+<body style="margin:0; padding:0; background-color:#fff;"
+onload="
+var idelds = document.getElementById('id_dataset').value;
+loadAjax('#idselclasstarget','http://{{ HOST }}:{{ PORT }}/pl/?tq=2&data='+idelds);
+
+"
+>
+  <div style="color: #fff; background-color: #1b1364">
+              <table style="margin:auto; padding:10px; width:700px" border="0">
+                  <tr>
+                      <td style="vertical-align:top; width:40%">
+                          <table style="width:100%">
+                              <tr>
+                                  <td colspan="2">
+                                    Dataset:<br>
+                                    <select id="id_dataset"
+                                    style="width:100%"
+                                      onclick="
+                                        var idelds = this.value;
+                                        loadAjax('#idselclasstarget','http://{{ HOST }}:{{ PORT }}/pl/?tq=2&data='+idelds);
+                                      "
+                                    >
+                                        <option value="1">Forest Cover Type (15120)</option>
+                                        <option value="2">Costa Rican Household Poverty Level Prediction (9557)</option>
+                                        <option value="3" selected>Digit Recognizer (42001)</option>
+                                    </select>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td style="width:50%">
+                                    Attributes:<br>
+                                    <div id="idselclasstarget">
+                                          <select id="id_classtarget"
+                                          style="width:100%"
+                                          >
+                                          </select>
+                                    </div>
+                                  </td>
+                                  <td style="width:50%">
+                                      Sample:<br>
+                                      <select id="id_sample" style="width:100%">
+                                          <option value="1.0">100%</option>
+                                          <option value="0.9">90%</option>
+                                          <option value="0.8">80%</option>
+                                          <option value="0.7">70%</option>
+                                          <option value="0.6">60%</option>
+                                          <option value="0.5">50%</option>
+                                          <option value="0.4">40%</option>
+                                          <option value="0.3">30%</option>
+                                          <option value="0.2">20%</option>
+                                          <option value="0.1">10%</option>
+                                          <option value="0.05">5%</option>
+                                          <option value="0.02" selected>2%</option>
+                                          <option value="0.01">1%</option>
+                                      </select>
+                                  </td>
+                              </tr>
+                          </table>
+                      </td>
+                      <!--
+                      <td style="vertical-align:top; width:30%">
+                          <table style="width:100%">
+                              <tr>
+                                  <td>
+                                      Data normalization:<br>
+                                      <select  id="id_datanor" style="width:100%">
+                                          <option value="0">None</option>
+                                          <option value="1">Min-Max</option>
+                                          <option value="2">Z-Score</option>
+                                      </select>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td>
+                                      Dimensionality reduction:<br>
+                                      <select  id="id_dimred" style="width:100%">
+                                          <option value="0">None</option>
+                                          <option value="1">Feature selection: feature importance extra trees classifier</option>
+                                          <option value="2">Feature selection</option>
+                                      </select>
+                                  </td>
+                              </tr>
+                          </table>
+                      </td>
+                      -->
+                      <td style="vertical-align:top; width:40%;">
+                          <table style="width:100%">
+                              <tr>
+                                  <td>
+                                      Visualization:<br>
+                                      <select id="id_vis" style="width:100%">
+                                          <option value="1">t-SNE</option>
+                                          <!--
+                                          <option value="2">PLMP</option>
+                                          <option value="3">LAMP</option>
+                                          <option value="4">Hierarchical</option>
+                                          <option value="4">Hierarchical</option>
+                                          <option value="5">UMAP</option>
+                                          -->
+
+                                      </select>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td>
+                                      Classification:<br>
+                                      <select id="id_predicc" style="width:100%">
+                                          <option value="1" selected>Random Forest</option>
+                                          <!--<option value="2">Super Vector Machine</option>
+                                          <option value="3">K-Nearest Neighbor</option>
+                                          <option value="4">XGBoosting</option>
+                                          -->
+                                      </select>
+                                  </td>
+                              </tr>
+                          </table>
+                      </td>
+                      <td style="vertical-align:top; width:20%">
+                          <table style="width:100%">
+                              <tr>
+                                  <td>
+                                      Execute:<br>
+                                      <input type="button" value="Run visualization"
+                                      onclick="
+                                        var id_dataset = document.getElementById('id_dataset').value;
+                                        var id_sample = document.getElementById('id_sample').value;
+                                        var id_dimred = 0;
+                                        var id_datanor = 0;
+                                        var id_vis = document.getElementById('id_vis').value;
+                                        var id_predicc = document.getElementById('id_predicc').value;
+
+                                        plotVisualization(450, id_dataset, id_sample, id_dimred, id_datanor, id_vis, id_predicc);
+                                      "
+                                      >
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td>
+                                      Execute<br>
+                                      <input type="button" value="Run classification"
+                                      onclick="
+                                        var id_dataset = document.getElementById('id_dataset').value;
+                                        var id_sample = document.getElementById('id_sample').value;
+                                        var id_dimred = 0;
+                                        var id_datanor = 0;
+                                        var id_vis = document.getElementById('id_vis').value;
+                                        var id_predicc = document.getElementById('id_predicc').value;
+
+                                        plotClassification(450, id_dataset, id_sample, id_dimred, id_datanor, id_vis, id_predicc);
+                                      "
+                                      >
+                                  </td>
+                              </tr>
+                          </table>
+                      </td>
+                  </tr>
+              </table>
+  </div>
+  <div style="padding:10px; padding-top:0">
+    <table style="width:100%; background-color:#fff; min-height:500px" border="0">
+        <tr>
+            <td style="width:50%;vertical-align: top; text-align:center">
+                <div style="">
+                    <span class="leftlabel">0.0</span>
+                    <input id ="range1" type="range" min="0" max="100" value="100" style="width: 200px; margin-right: 10px;"/>
+                    <span class="rightlabel">1.0</span>
+                </div>
+                <div id="chartsp">
+
+                </div>
+            </td>
+            <td style="width:50%; vertical-align:top; text-align: right">
+              <div id="classChart"></div>
+            </td>
+        </tr>
+    </table>
+  </div>
+  <style>
+  .maskloading {
+      background-color: rgba(190, 190, 190, 0.65);
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      margin: 0;
+      box-sizing: border-box;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+  }
+  </style>
+    <div id="loadingId" class="maskloading" style="display: none; z-index: 100000;
+      position: absolute; top: 0; left: 0;
+    "
+    >
+        <div style="
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-top: -50px; /* Half the height */
+            margin-left: -50px; /* Half the width */                 "
+            "
+       >
+            <img src="./lib/img/loader2.gif"
+                 style="width: 100px; height: 100px"
+            >
+        </div>
+    </div>
+
+    <script src="./lib/radarChart.js"></script>
+
+    		<script>
+    			var data = [
+    					  [//iPhone
+    						{axis:"Battery Life",value:0.22},
+    						{axis:"Brand",value:0.28},
+    						{axis:"Contract Cost",value:0.29},
+    						{axis:"Design And Quality",value:0.7},
+    						{axis:"Have Internet Connectivity",value:0.22},
+    						{axis:"Large Screen",value:0.02},
+    						{axis:"Price Of Device",value:0.21},
+    						{axis:"To Be A Smartphone",value:0.50}
+    					  ]
+    					];
+
+    			//Call function to draw the Radar chart
+          plotRadar(500, "#classChart", data);
+        </script>
+</body>
+</html>
