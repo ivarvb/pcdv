@@ -87,7 +87,7 @@ Ou abrir o web browser com o seguinte endereço:
 http://localhost:9999/
 ```
 
-Depois desde o web browser o usuário poderá interagir com a aplicação. Uma ilustrazão da aplicação pode ser apreciado na seguinte figura:
+Depois desde o web browser o usuário poderá interagir com a aplicação. Uma ilustração da aplicação pode ser apreciado na seguinte figura:
 
 ![alt text](pD3.jpg)
 
