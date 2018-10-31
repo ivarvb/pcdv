@@ -49,7 +49,7 @@ Nesta secção são apresentados exemplos de como empregar python para tarefas d
 
 ## Execução:
 
-No terminal acessar à cada pasta python/exemplo[x]/src/ e executar o seguinte comando:
+No terminal acessar a cada pasta python/exemplo[x]/src/ e executar o seguinte comando:
 
 ```
 python app.py
