@@ -72,7 +72,7 @@ sh server.sh
 O servidor estará pronto com a seguinte mensagem:
 
 ```
-The server is ready: http://localhost:7777/
+The server is ready: http://localhost:9999/
 ```
 
 Para o cliente executar:
@@ -84,7 +84,7 @@ sh server.sh
 Ou abrir um webbrower com o seguinte endereço:
 
 ```
-http://localhost:7777/
+http://localhost:9999/
 ```
 
 Depois desde o web browser o usuario poderá interagir com a apliacação.
